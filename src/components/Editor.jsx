@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/xml/xml'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/css/css'
 import { Controlled as ControlledEditorComponent } from "react-codemirror2";
 
+import 'codemirror/theme/dracula.css';
+import 'codemirror/theme/material.css';
+import 'codemirror/theme/mdn-like.css';
+import 'codemirror/theme/the-matrix.css';
+import 'codemirror/theme/night.css';
+
 const Editor = ({language, value, setEditorState})=> {
 
+    const themeArray = ['dracula', 'material', 'the-matrix', 'night']
+
+    const [theme, setTheme] = useState("dracula");
 
     const handleChange = (editor, data, value) => {
         setEditorState(value)
@@ -14,6 +23,18 @@ const Editor = ({language, value, setEditorState})=> {
 
     return (
         <div className="editor-container">
+            <div>
+                <label>Choose a theme</label>
+                <select name="theme" onChange={(el) => {
+                    setTheme(el.target.value)
+                }}>
+                    {
+                        themeArray.map(theme => (
+                            <option value={theme}>{theme}</option>
+                        ))
+                    }
+                </select>
+            </div>
             <ControlledEditorComponent
             onBeforeChange={handleChange}
             value={value}
